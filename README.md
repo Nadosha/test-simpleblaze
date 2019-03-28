@@ -3,6 +3,7 @@
 **Description:**
 ~~~
 It was basic implementation of Blaze functionality, where you can use curly brackets {{}} and data binding
+~~~
 
 **Usage**
 ~~~
