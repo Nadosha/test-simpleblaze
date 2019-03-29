@@ -12,7 +12,6 @@
     "mocha": "^6.0.2"
   },
   "dependencies": {
-    "chai": "^4.2.0",
-    "mocha-jsdom": "^2.0.0"
+    "chai": "^4.2.0"
   }
 }
