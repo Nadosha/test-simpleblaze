@@ -9,7 +9,22 @@ describe('Testing binding functionality', function () {
         header.render('.content')
     });
 
-    it('should return true if Title and inputs values are identical', function () {
-        expect(document.querySelector('h1').innerHTML).eql(document.querySelector('input').value)
+    it('should be the same DOM element and binded value', function() {
+        const bind = new Binding({
+            object: {
+                data: {
+                    title: 'TrialReach',
+                    name: 'andrey'
+                }
+            },
+            property: "title"
+        });
+
+        let elements = document.querySelector('[data-event]');
+        bind.addBinding(elements, "value", "keyup");
+
+        elements.addEventListener('change', function() {
+            expect(bind.value).eql(document.querySelector('h1').innerHTML);
+        });
     });
 });

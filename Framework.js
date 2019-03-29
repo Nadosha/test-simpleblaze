@@ -38,7 +38,6 @@ function Binding(b) {
         this.elementBindings.push(binding);
 
         element[attribute] = self.value;
-        return self
     };
 
     Object.defineProperty(b.object.data, b.property, {
@@ -86,12 +85,11 @@ const Framework = {
 
                     //Binding
                     let elements = document.querySelectorAll('[data-event]');
-                    for(let key in elements) if (elements.hasOwnProperty(key)){
+                    for(let key in elements) if (elements.hasOwnProperty(key)) {
                         let element = elements[key].getAttribute('data-event');
                         let eventType = /(.+):/.exec(element)[1];
 
                         self.bind.addBinding(elements[key], "value", eventType);
-
                     }
 
                     //Replace titleChanged in case of binding functionality
