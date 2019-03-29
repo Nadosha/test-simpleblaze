@@ -42,7 +42,7 @@ function Binding(b) {
         return self
     };
 
-    Object.defineProperty(b.object, b.property, {
+    Object.defineProperty(b.object.data, b.property, {
         get: this.valueGetter,
         set: this.valueSetter
     });
@@ -94,9 +94,9 @@ const Framework = {
                         let eventType = /(.+):/.exec(element)[1];
                         let functionName = /:(.+)/.exec(element)[1];
 
-                        self.bind.addBinding(elements[key], "value", eventType, functionName)
-                    }
+                        self.bind.addBinding(elements[key], "value", eventType, functionName);
 
+                    }
                     return true; //For check if Loaded
                 });
             }
