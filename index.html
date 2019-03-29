@@ -39,10 +39,12 @@
             name: 'andrey'
         },
         clearTitle: function(e) {
+            //No reason to use this in case of binding
           document.querySelector('input').value = '';
           document.querySelector('h1').innerHTML = '';
         },
         titleChanged: function(e) {
+            //No reason to use this in case of binding
           document.querySelector('h1').innerHTML = e.target.value;
         }
       });

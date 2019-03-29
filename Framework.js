@@ -19,7 +19,7 @@ function Binding(b) {
         }
     };
 
-    this.addBinding = function(element, attribute, event, functionName){
+    this.addBinding = function(element, attribute, event){
         let binding = {
             element: element,
             attribute: attribute
@@ -28,8 +28,7 @@ function Binding(b) {
         if (event){
             // To get DOM feedback, the binding needs an event to listen for
             // I have implemented this by forwarding props
-            element.addEventListener(event, function(ev){
-                b.object[functionName](ev);
+            element.addEventListener(event, function(){
                 let valueOnEvent = event !== "click" ? element[attribute] : "";
                 self.valueSetter(valueOnEvent);
             });
@@ -46,9 +45,7 @@ function Binding(b) {
         get: this.valueGetter,
         set: this.valueSetter
     });
-
-    b.object[b.property] = this.value;
-    return b.object[b.property];
+    b.object.data[b.property] = this.value;
 }
 
 const Framework = {
@@ -68,7 +65,7 @@ const Framework = {
                     //Match all tags for replacement
                     let replaceArray = template.match(/{{([^}]*[^{]*)}}/g).map(function(s) {
                         return s.substring(2, s.length - 2)
-                    }).filter((v, i, a) => a.indexOf(v) === i); //filter unique values
+                    }).filter((v, i, a) => a.indexOf(v) === i);
 
                     let replaceWith = [];
                     //Collect from props data
@@ -92,12 +89,16 @@ const Framework = {
                     for(let key in elements) if (elements.hasOwnProperty(key)){
                         let element = elements[key].getAttribute('data-event');
                         let eventType = /(.+):/.exec(element)[1];
-                        let functionName = /:(.+)/.exec(element)[1];
 
-                        self.bind.addBinding(elements[key], "value", eventType, functionName);
+                        self.bind.addBinding(elements[key], "value", eventType);
 
                     }
-                    return true; //For check if Loaded
+
+                    //Replace titleChanged in case of binding functionality
+                    let title = document.querySelector('h1');
+                    self.bind.addBinding(title, "innerHTML");
+
+                    return true; //For check if rendered
                 });
             }
        }
