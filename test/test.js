@@ -24,6 +24,7 @@ describe('Testing binding functionality', function () {
         bind.addBinding(elements, "value", "keyup");
 
         elements.addEventListener('change', function() {
+            console.log(bind);
             expect(bind.value).eql(document.querySelector('h1').innerHTML);
         });
     });

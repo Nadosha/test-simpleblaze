@@ -19,7 +19,7 @@ function Binding(b) {
         }
     };
 
-    this.addBinding = function(element, attribute, event){
+    this.addBinding = function(element, attribute, event, functionName){
         let binding = {
             element: element,
             attribute: attribute
@@ -28,7 +28,8 @@ function Binding(b) {
         if (event){
             // To get DOM feedback, the binding needs an event to listen for
             // I have implemented this by forwarding props
-            element.addEventListener(event, function(){
+            element.addEventListener(event, function(ev){
+                if(functionName) b.object[functionName](ev);
                 let valueOnEvent = event !== "click" ? element[attribute] : "";
                 self.valueSetter(valueOnEvent);
             });
@@ -44,7 +45,6 @@ function Binding(b) {
         get: this.valueGetter,
         set: this.valueSetter
     });
-    b.object.data[b.property] = this.value;
 }
 
 const Framework = {
@@ -88,13 +88,10 @@ const Framework = {
                     for(let key in elements) if (elements.hasOwnProperty(key)) {
                         let element = elements[key].getAttribute('data-event');
                         let eventType = /(.+):/.exec(element)[1];
+                        let functionName = /:(.+)/.exec(element)[1];
 
-                        self.bind.addBinding(elements[key], "value", eventType);
+                        self.bind.addBinding(elements[key], "value", eventType, functionName);
                     }
-
-                    //Replace titleChanged in case of binding functionality
-                    let title = document.querySelector('h1');
-                    self.bind.addBinding(title, "innerHTML");
 
                     return true; //For check if rendered
                 });
